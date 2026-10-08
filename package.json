@@ -1,0 +1,36 @@
+{
+  "name": "kaniska-task-management-system",
+  "version": "1.0.0",
+  "description": "Production-ready Task Management REST API with Role-Based Access Control and Resource Ownership",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "migrate": "node src/migrations/runner.js",
+    "seed": "node src/seeders/seed.js",
+    "test": "node test/verify-endpoints.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mysql",
+    "jwt",
+    "rest-api",
+    "rbac",
+    "task-management"
+  ],
+  "author": "Kaniska",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
