@@ -47,6 +47,38 @@ async function seedDatabase() {
       }
     }
 
+    // Seed sample tasks idempotently to facilitate immediate API testing
+    const [adminUser] = await connection.execute('SELECT id FROM users WHERE email = ?', ['admin@example.com']);
+    const [regularUser] = await connection.execute('SELECT id FROM users WHERE email = ?', ['user@example.com']);
+
+    if (adminUser.length > 0) {
+      const [existingAdminTask] = await connection.execute(
+        'SELECT id FROM tasks WHERE user_id = ? AND title = ?',
+        [adminUser[0].id, 'Admin System Maintenance Task']
+      );
+      if (existingAdminTask.length === 0) {
+        await connection.execute(
+          'INSERT INTO tasks (user_id, title, description, status) VALUES (?, ?, ?, ?)',
+          [adminUser[0].id, 'Admin System Maintenance Task', 'System infrastructure and security verification', 'Pending']
+        );
+        console.log('[Seeder] Created sample task for Admin');
+      }
+    }
+
+    if (regularUser.length > 0) {
+      const [existingUserTask] = await connection.execute(
+        'SELECT id FROM tasks WHERE user_id = ? AND title = ?',
+        [regularUser[0].id, 'Initial User Task']
+      );
+      if (existingUserTask.length === 0) {
+        await connection.execute(
+          'INSERT INTO tasks (user_id, title, description, status) VALUES (?, ?, ?, ?)',
+          [regularUser[0].id, 'Initial User Task', 'Getting started with Task Management API', 'Pending']
+        );
+        console.log('[Seeder] Created sample task for Regular User');
+      }
+    }
+
     console.log('[Seeder] Database seeding completed successfully.');
   } catch (error) {
     console.error('[Seeder] Seeding failed:', error.message);

@@ -382,6 +382,7 @@ A complete Postman collection is located at:
   - `userToken`: Automatically captured on login
   - `adminToken`: Automatically captured on login
   - `taskId`: Automatically captured when creating tasks
+  - `adminTaskId`: Seeded/captured admin task ID (used to test cross-user 403 access)
 - **Folder Breakdown**:
   - `Authentication` (Register, Login User, Login Admin)
   - `Tasks - Regular User` (Create, Get All Own, Get Single Own, Update Own)

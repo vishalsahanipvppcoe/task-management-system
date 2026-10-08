@@ -25,6 +25,11 @@
       "key": "taskId",
       "value": "1",
       "type": "string"
+    },
+    {
+      "key": "adminTaskId",
+      "value": "7",
+      "type": "string"
     }
   ],
   "item": [
@@ -260,6 +265,24 @@
       "item": [
         {
           "name": "Get All Tasks",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.success && Array.isArray(response.data)) {",
+                  "    const adminTask = response.data.find(t => t.user_email === 'admin@example.com' || t.user_id === 1);",
+                  "    if (adminTask) {",
+                  "        pm.collectionVariables.set('adminTaskId', adminTask.id);",
+                  "        console.log('Saved adminTaskId variable:', adminTask.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -388,9 +411,9 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/tasks/999",
+              "raw": "{{baseUrl}}/tasks/{{adminTaskId}}",
               "host": ["{{baseUrl}}"],
-              "path": ["tasks", "999"]
+              "path": ["tasks", "{{adminTaskId}}"]
             }
           },
           "response": []
